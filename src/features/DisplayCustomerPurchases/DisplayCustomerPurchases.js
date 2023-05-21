@@ -263,12 +263,15 @@ export function calculateRewardsPointsForTransaction(transactionAmount) {
 }
 
 export function formatTime (date) {
-    let hours = date.getHours() ; // gives the value in 24 hours format
-    const AmOrPm = hours >= 12 ? 'PM' : 'AM';
-    hours = (hours % 12) || 12;
-    let minutes = date.getMinutes() ;
-    if ( minutes < 10) {
-        minutes = '0' + minutes.toString()
+    if ( date instanceof Date) {
+        let hours = date.getHours() ; // gives the value in 24 hours format
+        const AmOrPm = hours >= 12 ? 'PM' : 'AM';
+        hours = (hours % 12) || 12;
+        let minutes = date.getMinutes() ;
+        if ( minutes < 10) {
+            minutes = '0' + minutes.toString()
+        }
+        return hours + ":" + minutes + " " + AmOrPm;
     }
-    return hours + ":" + minutes + " " + AmOrPm;
+    return 'Invalid Date'
 }

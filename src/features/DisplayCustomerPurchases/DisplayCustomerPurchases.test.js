@@ -1,19 +1,26 @@
-import { customerPurchasesByYearObject } from '../../api/mockApi'
 import { calculateRewardsPointsForTransaction, formatTime } from './DisplayCustomerPurchases'
 
 describe('DisplayCustomerPurchases', () => {
     describe('calculateRewardPointsForTransaction', () => {
-        it('should calculate rewards points earned for a transaciton', () => {
-            // Amount that should return 0
-            expect(calculateRewardsPointsForTransaction(25)).toBe(0)
-            // 1 point for every dollar between 50-100
-            expect(calculateRewardsPointsForTransaction(55.5)).toBe(5)
-            // 50 points for 50-100 range, 2 points every dollar over 100
-            expect(calculateRewardsPointsForTransaction(101.74)).toBe(52)
-            // Doesn't break on bad input
-            expect(calculateRewardsPointsForTransaction(true)).toBe(0)
-            expect(calculateRewardsPointsForTransaction(null)).toBe(0)
-            expect(calculateRewardsPointsForTransaction(-1)).toBe(0)
+        describe('should calculate rewards points earned for a transaction', () => {
+            it('should calculate for values that should return 0 points', () => {
+                expect(calculateRewardsPointsForTransaction(25)).toBe(0)
+            })
+
+            it('1 point for every dollar between 50-100', () => {
+                expect(calculateRewardsPointsForTransaction(55.5)).toBe(5)
+                expect(calculateRewardsPointsForTransaction(75.5)).toBe(25)
+            })
+            
+            it('should add 50 points for 50-100 range, 2 points every dollar over 100', () => {
+                expect(calculateRewardsPointsForTransaction(101.74)).toBe(52)
+            })
+
+            it('should handle invalid input', () => {
+                expect(calculateRewardsPointsForTransaction(true)).toBe(0)
+                expect(calculateRewardsPointsForTransaction(null)).toBe(0)
+                expect(calculateRewardsPointsForTransaction(-1)).toBe(0)
+            })
         })
     })
 
@@ -34,8 +41,8 @@ describe('DisplayCustomerPurchases', () => {
         })
 
         it('should handle bad input', () => {
-            expect(formatTime(false)).toBe('7:50 PM')
-            expect(formatTime(null)).toBe('7:50 PM')
+            expect(formatTime(false)).toBe('Invalid Date')
+            expect(formatTime(null)).toBe('Invalid Date')
         })
     })
 })
